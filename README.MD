@@ -1,12 +1,12 @@
-# Установка
+# РЈСЃС‚Р°РЅРѕРІРєР°
 
 _tbd_
 
-# Использование
+# РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ
 
 _tbd_
 
-# Благодарность
+# Р‘Р»Р°РіРѕРґР°СЂРЅРѕСЃС‚СЊ
 
-- Andreas Lutro за Simple PHP cURL wrapper class (https://github.com/anlutro/php-curl)
-- Sebastian Bergmann за The PHP Unit Testing framework (https://github.com/sebastianbergmann/phpunit)
+- Andreas Lutro Р·Р° Simple PHP cURL wrapper class (https://github.com/anlutro/php-curl)
+- Sebastian Bergmann Р·Р° The PHP Unit Testing framework (https://github.com/sebastianbergmann/phpunit)
