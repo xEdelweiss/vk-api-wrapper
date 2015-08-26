@@ -3,27 +3,28 @@
 namespace VkApi;
 
 use VkApi\Component\Messages;
+use VkApi\Component\Users;
 use VkApi\Request\BasicRequest;
 
 /**
- * Class Wrapper
+ * Class Connection
  * @package VkApi
  *
  * @property Messages $messages Messages Component
+ * @property Users $users Users Component
  */
-class Wrapper
+class Connection
 {
-    const API_ENTRY_POINT = 'https://api.vk.com/method/';
-
     protected $appId;
     protected $appSecret;
     protected $accessToken;
     protected $version = '5.37';
+    protected $apiEntryPoint = 'https://api.vk.com/method/';
 
     private $instantiatedComponents;
 
     /**
-     * Wrapper constructor.
+     * Connection constructor.
      *
      * @param int $appId
      * @param string $appSecret
@@ -53,13 +54,54 @@ class Wrapper
         return $this->instantiatedComponents[$componentName];
     }
 
-    public function createRequest($method, $parameters, $format = 'json')
+    /**
+     * @return int
+     */
+    public function getAppId()
     {
-        $systemParameters = [
-            'v' => $this->version,
-            'access_token' => $this->accessToken,
-        ];
+        return $this->appId;
+    }
 
-        return new BasicRequest($method, array_merge($systemParameters, $parameters), $format, static::API_ENTRY_POINT);
+    /**
+     * @return string
+     */
+    public function getAppSecret()
+    {
+        return $this->appSecret;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccessToken()
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiEntryPoint()
+    {
+        return $this->apiEntryPoint;
+    }
+
+    /**
+     * @param $method
+     * @param $parameters
+     * @param $requestClass
+     * @return BasicRequest
+     */
+    public function createRequest($method, $parameters, $requestClass = BasicRequest::class)
+    {
+        return new $requestClass($method, $parameters, 'json', $this);
     }
 }

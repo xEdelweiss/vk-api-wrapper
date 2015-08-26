@@ -2,7 +2,7 @@
 
 namespace VkApi\Component;
 
-use VkApi\Response\ListResponse;
+use VkApi\Response\MessagesListResponse;
 
 class Messages extends Basic
 {
@@ -11,28 +11,27 @@ class Messages extends Basic
     /**
      * @param int $count
      * @param int $offset
-     * @param null $isOut
-     * @param null $isImportant
+     * @param null $out
+     * @param null $filters
      * @param null $previewLength
      * @param null $lastMessageId
      * @param null $timeOffset
-     *
-     * @return ListResponse
+     * @return MessagesListResponse
      */
-    public function get($count = 20, $offset = 0, $isOut = null, $isImportant = null, $previewLength = null, $lastMessageId = null, $timeOffset = null)
+    public function get($count = null, $offset = null, $out = null, $filters = null, $previewLength = null, $lastMessageId = null, $timeOffset = null)
     {
-        $parameters = array_filter([
-            'out' => $isOut ? 1 : 0,
+        $parameters = $this->prepareParameters([
+            'out' => $out,
             'offset' => $offset,
             'count' => $count,
             'time_offset' => $timeOffset,
-            'filters' => $isImportant ? 8 : null,
+            'filters' => $filters,
             'preview_length' => $previewLength,
             'last_message_id' => $lastMessageId,
         ]);
 
-        $request = $this->wrapper()->createRequest($this->method('get'), $parameters);
+        $request = $this->getConnection()->createRequest($this->getFullMethodName('get'), $parameters);
 
-        return $request->make(ListResponse::class);
+        return $request->make(MessagesListResponse::class);
     }
 }

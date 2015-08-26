@@ -1,12 +1,12 @@
 <?php
 
-namespace VkApi\Exception;
+namespace VkApi\Exception\Api;
 
-use Exception;
+use VkApi\Exception\Exception as BasicException;
 use VkApi\Request\BasicRequest;
 use VkApi\Response\BasicResponse;
 
-class ApiException extends Exception
+class Exception extends BasicException
 {
     /**
      * @var array
@@ -17,6 +17,21 @@ class ApiException extends Exception
      * @var BasicResponse
      */
     protected $response;
+
+    /**
+     * @param BasicRequest $request
+     * @param BasicResponse $response
+     * @return TooManyRequestsException|static
+     */
+    public static function factory(BasicRequest $request, BasicResponse $response)
+    {
+        switch ($response->getParsedResponse()->error->error_code) {
+            case 6:
+                return new TooManyRequestsException($request, $response);
+            default:
+                return new static($request, $response);
+        }
+    }
 
     public function __construct(BasicRequest $request, BasicResponse $response, Exception $previous = null)
     {

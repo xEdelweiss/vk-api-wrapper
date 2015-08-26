@@ -3,14 +3,13 @@
 namespace VkApi\Response;
 
 use anlutro\cURL\Response;
-use VkApi\Exception\ApiException;
+use VkApi\Exception\Api\Exception as ApiException;
 use VkApi\Exception\HttpException;
 use VkApi\Request\BasicRequest;
 
 class BasicResponse
 {
     protected $rawResponse;
-
     protected $parsedResponse;
 
     /**
@@ -28,17 +27,16 @@ class BasicResponse
         $this->rawResponse = $response;
         $this->parsedResponse = json_decode($this->rawResponse->body);
         $this->request = $request;
+
+        $this->exceptionIfError();
     }
 
-    public function exceptionIfError()
+    /**
+     * @return BasicRequest
+     */
+    public function getRequest()
     {
-        if ($this->rawResponse->statusCode !== 200) {
-            throw new HttpException($this->request, $this);
-        }
-
-        if (isset($this->getParsedResponse()->error)) {
-            throw new ApiException($this->request, $this);
-        }
+        return $this->request;
     }
 
     /**
@@ -52,5 +50,23 @@ class BasicResponse
     public function getParsedResponse()
     {
         return $this->parsedResponse;
+    }
+
+    /**
+     * @return $this
+     * @throws ApiException
+     * @throws HttpException
+     */
+    protected function exceptionIfError()
+    {
+        if ($this->rawResponse->statusCode !== 200) {
+            throw new HttpException($this->request, $this);
+        }
+
+        if (isset($this->getParsedResponse()->error)) {
+            throw ApiException::factory($this->request, $this);
+        }
+
+        return $this;
     }
 }

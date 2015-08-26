@@ -2,31 +2,40 @@
 
 namespace VkApi\Component;
 
-use VkApi\Wrapper;
+use VkApi\Connection;
 
 abstract class Basic
 {
     static $prefix;
 
     /**
-     * @var Wrapper
+     * @var Connection
      */
-    private $wrapper;
+    private $connection;
 
-    public function __construct(Wrapper $wrapper)
+    public function __construct(Connection $connection)
     {
-        $this->wrapper = $wrapper;
+        $this->connection = $connection;
     }
 
     /**
-     * @return Wrapper
+     * @param array $parameters
+     * @return array
      */
-    protected function wrapper()
+    protected function prepareParameters(array $parameters)
     {
-        return $this->wrapper;
+        return array_filter($parameters);
     }
 
-    protected function method($method)
+    /**
+     * @return Connection
+     */
+    protected function getConnection()
+    {
+        return $this->connection;
+    }
+
+    protected function getFullMethodName($method)
     {
         return static::$prefix . '.' . $method;
     }

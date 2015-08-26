@@ -3,35 +3,80 @@
 namespace VkApi\Request;
 
 use anlutro\cURL\cURL;
+use anlutro\cURL\Request;
+use VkApi\Connection;
+use VkApi\Exception\Api\TooManyRequestsException;
 use VkApi\Response\BasicResponse;
 
 class BasicRequest
 {
-    private $method;
-    private $parameters;
-    private $format;
-    private $entryPoint;
+    const SLEEP_TIME = 500000; // 0.5 sec
+    const CONNECTION_TIMEOUT = 5;
+    const REQUEST_TIMEOUT = 5;
+    const RETRIES_COUNT = 5;
+
+    protected $method;
+    protected $parameters;
+    protected $format;
+    protected $connection;
+
+    private $retriesLeft;
 
     /**
      * Request constructor.
      * @param $method
      * @param array $parameters
      * @param $format
+     * @param Connection $connection
      */
-    public function __construct($method, array $parameters, $format, $entryPoint)
+    public function __construct($method, array $parameters, $format, Connection $connection)
     {
         $this->method = $method;
         $this->parameters = $parameters;
         $this->format = $format;
-        $this->entryPoint = $entryPoint;
+        $this->connection = $connection;
+
+        $this->resetRetriesCount();
     }
 
+    /**
+     * @param $responseClass
+     * @return BasicResponse
+     * @throws TooManyRequestsException
+     * @throws \Exception
+     */
     public function make($responseClass = BasicResponse::class)
     {
         $curl = new cURL();
-        $url = $curl->buildUrl($this->entryPoint . $this->method . '.' . $this->format, $this->parameters);
+        $url = $curl->buildUrl($this->getConnection()->getApiEntryPoint() . $this->getMethod() . '.' . $this->getFormat(), $this->getParameters());
 
-        return new $responseClass($curl->get($url), $this);
+        try {
+            /** @var Request $request */
+            $request = $curl->newRequest('get', $url)
+                ->setOption(CURLOPT_CONNECTTIMEOUT, static::CONNECTION_TIMEOUT)
+                ->setOption(CURLOPT_TIMEOUT, static::REQUEST_TIMEOUT);
+
+            $response = new $responseClass($request->send(), $this);
+            $this->resetRetriesCount();
+        } catch (TooManyRequestsException $e) {
+            if (!$this->canRetry()) {
+                throw $e;
+            }
+
+            $this->prepareRetry();
+
+            return $this->make($responseClass);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @return Connection
+     */
+    public function getConnection()
+    {
+        return $this->connection;
     }
 
     /**
@@ -47,7 +92,12 @@ class BasicRequest
      */
     public function getParameters()
     {
-        return $this->parameters;
+        $systemParameters = [
+            'v' => $this->getConnection()->getVersion(),
+            'access_token' => $this->getConnection()->getAccessToken(),
+        ];
+
+        return array_merge($systemParameters, $this->parameters);
     }
 
     /**
@@ -56,6 +106,31 @@ class BasicRequest
     public function getFormat()
     {
         return $this->format;
+    }
+
+    /**
+     * Reset left retries count
+     */
+    private function resetRetriesCount()
+    {
+        $this->retriesLeft = static::RETRIES_COUNT;
+    }
+
+    /**
+     * Sleep and decrease left retries
+     */
+    private function prepareRetry()
+    {
+        $this->retriesLeft--;
+        usleep(static::SLEEP_TIME);
+    }
+
+    /**
+     * @return bool
+     */
+    private function canRetry()
+    {
+        return $this->retriesLeft > 0;
     }
 
 }
