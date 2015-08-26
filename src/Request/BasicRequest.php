@@ -47,8 +47,13 @@ class BasicRequest
      */
     public function make($responseClass = BasicResponse::class)
     {
+        $connection = $this->getConnection();
         $curl = new cURL();
-        $url = $curl->buildUrl($this->getConnection()->getApiEntryPoint() . $this->getMethod() . '.' . $this->getFormat(), $this->getParameters());
+        $url = $curl->buildUrl($connection->getApiEntryPoint() . $this->getMethod() . '.' . $this->getFormat(), $this->getParameters());
+
+        if ($connection->isCached($url)) {
+            return $connection->getCached($url);
+        }
 
         try {
             /** @var Request $request */
@@ -68,7 +73,7 @@ class BasicRequest
             return $this->make($responseClass);
         }
 
-        return $response;
+        return $connection->setCached($url, $response);
     }
 
     /**
