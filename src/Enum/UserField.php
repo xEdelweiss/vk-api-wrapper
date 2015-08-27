@@ -8,7 +8,7 @@ namespace VkApi\Enum;
  *
  * TODO make const names prettier
  */
-class UserField
+class UserField extends BasicEnum
 {
     const SEX = 'sex';
     const BDATE = 'bdate';
@@ -59,4 +59,6 @@ class UserField
     const FRIEND_STATUS = 'friend_status';
     const MILITARY = 'military';
     const CAREER = 'career';
+
+
 }

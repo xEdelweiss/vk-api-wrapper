@@ -2,7 +2,7 @@
 
 namespace VkApi\Enum;
 
-class NameCase
+class NameCase extends BasicEnum
 {
     const NOMINATIVE = 'nom';
     const GENITIVE = 'gen';
