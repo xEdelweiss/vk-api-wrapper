@@ -3,7 +3,10 @@
 namespace VkApi\Entity;
 
 use Carbon\Carbon;
+use Intervention\Image\ImageManagerStatic;
 use VkApi\Entity\Traits\WithId;
+use VkApi\Enum\UserPhotoSize;
+use VkApi\Exception\InvalidPhotoSize;
 
 class User extends BasicEntity
 {
@@ -105,6 +108,31 @@ class User extends BasicEntity
     public function getHomePhoneNumber()
     {
         return $this->getRawValue('home_phone');
+    }
+
+    /**
+     * @param string $size
+     * @return string
+     * @throws InvalidPhotoSize
+     */
+    public function getPhotoUrl($size = UserPhotoSize::MEDIUM_SQUARE)
+    {
+        if (!in_array($size, UserPhotoSize::all())) {
+            throw new InvalidPhotoSize($size, UserPhotoSize::all());
+        }
+
+        return $this->getRawValue('photo_' . $size);
+    }
+
+    public function getPhoto($size = UserPhotoSize::MEDIUM_SQUARE)
+    {
+        $photoUrl = $this->getPhotoUrl($size);
+
+        if (!$photoUrl) {
+            return null;
+        }
+
+        return ImageManagerStatic::make($photoUrl);
     }
 
     /**
