@@ -4,7 +4,8 @@ _tbd_
 
 # Использование
 
-_tbd_
+    $vk = new VkApi\Connection($appId, $appKey, $accessToken);
+    $result = $vk->...; // Следуй подсказкам IDE
 
 # Благодарность
 
