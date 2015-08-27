@@ -2,8 +2,11 @@
 
 namespace VkApi;
 
+use VkApi\Component\Countries;
 use VkApi\Component\Messages;
 use VkApi\Component\Users;
+use VkApi\Enum\Language;
+use VkApi\Exception\InvalidEnumValueException;
 use VkApi\Request\BasicRequest;
 
 /**
@@ -12,6 +15,7 @@ use VkApi\Request\BasicRequest;
  *
  * @property Messages $messages Messages Component
  * @property Users $users Users Component
+ * @property Countries $countries Countries Component
  */
 class Connection
 {
@@ -21,6 +25,8 @@ class Connection
     protected $version = '5.37';
     protected $vkDomain = 'vk.com';
     protected $apiEntryPoint = 'https://api.vk.com/method/';
+    protected $language = null;
+    protected $https = true;
 
     private $instantiatedComponents;
 
@@ -115,6 +121,43 @@ class Connection
     public function getApiEntryPoint()
     {
         return $this->apiEntryPoint;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * @param string $language
+     * @throws InvalidEnumValueException
+     */
+    public function setLanguage($language)
+    {
+        if (!in_array($language, Language::all())) {
+            throw new InvalidEnumValueException($language, Language::all());
+        }
+
+        $this->language = $language;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isHttps()
+    {
+        return $this->https;
+    }
+
+    /**
+     * @param boolean $https
+     */
+    public function setHttps($https)
+    {
+        $this->https = $https;
     }
 
     /**

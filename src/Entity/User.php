@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Intervention\Image\ImageManagerStatic;
 use VkApi\Entity\Traits\WithId;
 use VkApi\Enum\UserPhotoSize;
-use VkApi\Exception\InvalidPhotoSize;
+use VkApi\Exception\Invalid\InvalidPhotoSizeException;
 
 class User extends BasicEntity
 {
@@ -113,12 +113,12 @@ class User extends BasicEntity
     /**
      * @param string $size
      * @return string
-     * @throws InvalidPhotoSize
+     * @throws InvalidPhotoSizeException
      */
     public function getPhotoUrl($size = UserPhotoSize::MEDIUM_SQUARE)
     {
         if (!in_array($size, UserPhotoSize::all())) {
-            throw new InvalidPhotoSize($size, UserPhotoSize::all());
+            throw new InvalidPhotoSizeException($size, UserPhotoSize::all());
         }
 
         return $this->getRawValue('photo_' . $size);

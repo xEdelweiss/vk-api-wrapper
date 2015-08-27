@@ -14,6 +14,7 @@ class BasicRequest
     const CONNECTION_TIMEOUT = 5;
     const REQUEST_TIMEOUT = 5;
     const RETRIES_COUNT = 5;
+    const SSL_VERIFICATION = true;
 
     protected $method;
     protected $parameters;
@@ -59,7 +60,8 @@ class BasicRequest
             /** @var Request $request */
             $request = $curl->newRequest('get', $url)
                 ->setOption(CURLOPT_CONNECTTIMEOUT, static::CONNECTION_TIMEOUT)
-                ->setOption(CURLOPT_TIMEOUT, static::REQUEST_TIMEOUT);
+                ->setOption(CURLOPT_TIMEOUT, static::REQUEST_TIMEOUT)
+                ->setOption(CURLOPT_SSL_VERIFYPEER, static::SSL_VERIFICATION);
 
             $response = new $responseClass($request->send(), $this);
             $this->resetRetriesCount();
@@ -97,10 +99,12 @@ class BasicRequest
      */
     public function getParameters()
     {
-        $systemParameters = [
+        $systemParameters = array_filter([
             'v' => $this->getConnection()->getVersion(),
             'access_token' => $this->getConnection()->getAccessToken(),
-        ];
+            'lang' => $this->getConnection()->getLanguage(),
+            'https' => (int) $this->getConnection()->isHttps(),
+        ]);
 
         return array_merge($systemParameters, $this->parameters);
     }

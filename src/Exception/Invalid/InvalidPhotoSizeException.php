@@ -1,10 +1,11 @@
 <?php
 
-namespace VkApi\Exception;
+namespace VkApi\Exception\Invalid;
 
 use Exception;
+use VkApi\Exception\InvalidEnumValueException;
 
-class InvalidPhotoSize extends Exception
+class InvalidPhotoSizeException extends InvalidEnumValueException
 {
     /**
      * @param string $passed
@@ -13,10 +14,9 @@ class InvalidPhotoSize extends Exception
      */
     public function __construct($passed, $possible, Exception $previous = null)
     {
-        $code = 0;
         $message = "Invalid photo size [{$passed}] passed. Possible values: " . json_encode(array_values($possible));
 
-        parent::__construct($message, $code, $previous);
+        parent::__construct($passed, $possible, $message, $previous);
     }
 
 }

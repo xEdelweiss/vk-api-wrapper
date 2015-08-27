@@ -7,7 +7,7 @@ use Intervention\Image\ImageManagerStatic;
 use VkApi\Entity\Traits\DisableExtendedEntityRequest;
 use VkApi\Entity\Traits\WithId;
 use VkApi\Enum\ChatPhotoSize;
-use VkApi\Exception\InvalidPhotoSize;
+use VkApi\Exception\Invalid\InvalidPhotoSizeException;
 use VkApi\Exception\NotImplemetedException;
 use VkApi\Utils;
 
@@ -168,12 +168,12 @@ class Message extends BasicEntity
     /**
      * @param string $size
      * @return string
-     * @throws InvalidPhotoSize
+     * @throws InvalidPhotoSizeException
      */
     public function getChatPhotoUrl($size = ChatPhotoSize::MEDIUM)
     {
         if (!in_array($size, ChatPhotoSize::all())) {
-            throw new InvalidPhotoSize($size, ChatPhotoSize::all());
+            throw new InvalidPhotoSizeException($size, ChatPhotoSize::all());
         }
 
         return $this->getRawValue('photo_' . $size);
