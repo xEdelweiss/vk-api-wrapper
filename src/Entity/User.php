@@ -21,6 +21,6 @@ class User extends BasicEntity
 
     public function changeNameCase($nameCase)
     {
-        return $this->getConnection()->users->getById($this->getId(), null, $nameCase);
+        return $this->getConnection()->users->getUser($this->getId(), null, $nameCase);
     }
 }

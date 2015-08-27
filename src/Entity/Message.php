@@ -11,7 +11,7 @@ class Message extends BasicEntity
 
     public function getAuthor()
     {
-        return $this->getConnection()->users->getById(
+        return $this->getConnection()->users->getUser(
             isset($this->getRawData()->from_id) ? $this->getRawData()->from_id : $this->getRawData()->user_id
         );
     }

@@ -39,4 +39,23 @@ abstract class Basic
     {
         return static::$prefix . '.' . $method;
     }
+
+    /**
+     * @param $array
+     * @return array
+     *
+     * TODO objects?
+     */
+    protected function ensureIsArray($array)
+    {
+        if (is_null($array)) {
+            return [];
+        }
+
+        if (is_scalar($array)) {
+            return [$array];
+        }
+
+        return $array;
+    }
 }

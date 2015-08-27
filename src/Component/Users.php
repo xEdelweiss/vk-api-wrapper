@@ -3,6 +3,7 @@
 namespace VkApi\Component;
 
 use VkApi\Entity\User;
+use VkApi\Enum\UserField;
 use VkApi\Response\UsersListResponse;
 
 class Users extends Basic
@@ -18,8 +19,8 @@ class Users extends Basic
     public function get($userIds = null, $fields = null, $nameCase = null)
     {
         $parameters = $this->prepareParameters([
-            'user_ids' => is_null($userIds) ? null : implode(',', $userIds),
-            'fields' => is_null($fields) ? null : implode(',', $fields),
+            'user_ids' => implode(',', $this->ensureIsArray($userIds)),
+            'fields' => implode(',', $this->ensureIsArray($fields)),
             'name_case' => $nameCase
         ]);
 
@@ -34,11 +35,20 @@ class Users extends Basic
      * @param string $nameCase
      * @return User
      */
-    public function getById($id, $fields = null, $nameCase = null)
+    public function getUser($id = null, $fields = null, $nameCase = null)
     {
-        $response = $this->get([$id], $fields, $nameCase);
+        $response = $this->get($id, $fields, $nameCase);
 
         return $response->getItems()[0]; // TODO check that first item exists
     }
 
+    /**
+     * @param null $id
+     * @param null $nameCase
+     * @return User
+     */
+    public function getUserWithFullInfo($id = null, $nameCase = null)
+    {
+        return $this->getUser($id, UserField::all(), $nameCase);
+    }
 }
