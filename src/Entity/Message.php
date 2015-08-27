@@ -3,7 +3,10 @@
 namespace VkApi\Entity;
 
 use Carbon\Carbon;
+use Intervention\Image\ImageManagerStatic;
 use VkApi\Entity\Traits\WithId;
+use VkApi\Enum\ChatPhotoSize;
+use VkApi\Exception\InvalidPhotoSize;
 use VkApi\Exception\NotImplemetedException;
 use VkApi\Utils;
 
@@ -159,6 +162,31 @@ class Message extends BasicEntity
         }
 
         return $this->getConnection()->users->getUser($adminId);
+    }
+
+    /**
+     * @param string $size
+     * @return string
+     * @throws InvalidPhotoSize
+     */
+    public function getChatPhotoUrl($size = ChatPhotoSize::MEDIUM)
+    {
+        if (!in_array($size, ChatPhotoSize::all())) {
+            throw new InvalidPhotoSize($size, ChatPhotoSize::all());
+        }
+
+        return $this->getRawValue('photo_' . $size);
+    }
+
+    public function getChatPhoto($size = ChatPhotoSize::MEDIUM)
+    {
+        $photoUrl = $this->getChatPhotoUrl($size);
+
+        if (!$photoUrl) {
+            return null;
+        }
+
+        return ImageManagerStatic::make($photoUrl);
     }
 
     /**
