@@ -4,6 +4,7 @@ namespace VkApi\Entity;
 
 use Carbon\Carbon;
 use Intervention\Image\ImageManagerStatic;
+use VkApi\Entity\Traits\DisableExtendedEntityRequest;
 use VkApi\Entity\Traits\WithId;
 use VkApi\Enum\ChatPhotoSize;
 use VkApi\Exception\InvalidPhotoSize;
@@ -12,7 +13,7 @@ use VkApi\Utils;
 
 class Message extends BasicEntity
 {
-    use WithId;
+    use WithId, DisableExtendedEntityRequest;
 
     /**
      * @return User
@@ -211,19 +212,6 @@ class Message extends BasicEntity
     {
         throw new NotImplemetedException;
         // TODO push_settings
-    }
-
-    /**
-     * Do not make request for Extended entity
-     *
-     * @param $key
-     * @param bool|false $requestExtended
-     * @param null $default
-     * @return mixed
-     */
-    public function getRawValue($key, $requestExtended = false, $default = null)
-    {
-        return parent::getRawValue($key, $requestExtended, $default);
     }
 
 }
