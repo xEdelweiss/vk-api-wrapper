@@ -19,6 +19,7 @@ class Connection
     protected $appSecret;
     protected $accessToken;
     protected $version = '5.37';
+    protected $vkDomain = 'vk.com';
     protected $apiEntryPoint = 'https://api.vk.com/method/';
 
     private $instantiatedComponents;
@@ -98,6 +99,14 @@ class Connection
     public function getVersion()
     {
         return $this->version;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVkDomain()
+    {
+        return $this->vkDomain;
     }
 
     /**
