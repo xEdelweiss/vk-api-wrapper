@@ -37,4 +37,18 @@ class BasicEntity
         return $this->connection;
     }
 
+    public function toArray()
+    {
+        return $this->convertToArray($this->getRawData());
+    }
+
+    public function __debugInfo()
+    {
+        return $this->toArray();
+    }
+
+    private function convertToArray($object)
+    {
+        return json_decode(json_encode($object), true);
+    }
 }
