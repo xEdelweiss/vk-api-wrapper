@@ -6,7 +6,7 @@ use VkApi\Entity\User;
 use VkApi\Enum\UserField;
 use VkApi\Response\UsersListResponse;
 
-class Users extends Basic
+class Users extends BasicComponent
 {
     static $prefix = 'users';
 

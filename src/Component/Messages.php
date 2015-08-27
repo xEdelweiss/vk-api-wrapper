@@ -4,7 +4,7 @@ namespace VkApi\Component;
 
 use VkApi\Response\MessagesListResponse;
 
-class Messages extends Basic
+class Messages extends BasicComponent
 {
     static $prefix = 'messages';
 

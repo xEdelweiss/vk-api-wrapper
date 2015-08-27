@@ -59,6 +59,4 @@ class UserField extends BasicEnum
     const FRIEND_STATUS = 'friend_status';
     const MILITARY = 'military';
     const CAREER = 'career';
-
-
 }

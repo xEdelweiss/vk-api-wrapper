@@ -4,7 +4,7 @@ namespace VkApi\Component;
 
 use VkApi\Connection;
 
-abstract class Basic
+abstract class BasicComponent
 {
     static $prefix;
 
