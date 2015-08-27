@@ -12,6 +12,6 @@ trait WithId
     public function getId()
     {
         /** @var $this BasicEntity */
-        return (int) $this->getRawData()->id;
+        return (int) $this->getRawValue('id', false);
     }
 }

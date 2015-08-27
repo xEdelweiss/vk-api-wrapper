@@ -3,6 +3,7 @@
 namespace VkApi\Entity;
 
 use VkApi\Entity\Traits\WithId;
+use VkApi\Utils;
 
 class Message extends BasicEntity
 {
@@ -10,13 +11,14 @@ class Message extends BasicEntity
 
     public function getAuthor()
     {
-        return $this->getConnection()->users->getUser(
-            isset($this->getRawData()->from_id) ? $this->getRawData()->from_id : $this->getRawData()->user_id
-        );
+        $fromId = $this->getRawValue('from_id', false);
+        $userId = $this->getRawValue('user_id', false);
+
+        return $this->getConnection()->users->getUser(Utils::getNotNull($fromId, $userId));
     }
 
     public function getText()
     {
-        return $this->getRawData()->body;
+        return $this->getRawValue('body', false);
     }
 }

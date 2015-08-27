@@ -33,7 +33,7 @@ class ListResponse extends BasicResponse
         $connection = $this->getRequest()->getConnection();
 
         return array_map(function($item) use ($class, $connection){
-            return new $class($item, $connection);
+            return new $class($item, $this->getRequest()->getParameters(), $connection);
         }, $array);
     }
 }

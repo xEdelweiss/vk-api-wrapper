@@ -10,16 +10,27 @@ class User extends BasicEntity
 
     public function getFirstName()
     {
-        return $this->getRawData()->first_name;
+        return $this->getRawValue('first_name', false);
     }
 
     public function getLastName()
     {
-        return $this->getRawData()->last_name;
+        return $this->getRawValue('last_name', false);
     }
 
     public function changeNameCase($nameCase)
     {
-        return $this->getConnection()->users->getUser($this->getId(), null, $nameCase);
+        $updatedEntity = $this->getConnection()->users->getUser($this->getId(), $this->getOriginalRequestParameter('fields'), $nameCase);
+        $this->mergeWith($updatedEntity);
+
+        return $this;
     }
+
+    protected function requestExtendedRawData()
+    {
+        $nameCase = $this->getOriginalRequestParameter('name_case');
+
+        return $this->getConnection()->users->getUserWithFullInfo($this->getId(), $nameCase);
+    }
+
 }
