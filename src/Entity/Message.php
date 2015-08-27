@@ -2,12 +2,11 @@
 
 namespace VkApi\Entity;
 
+use VkApi\Entity\Traits\WithId;
+
 class Message extends BasicEntity
 {
-    public function getId()
-    {
-        return $this->getRawData()->id;
-    }
+    use WithId;
 
     public function getAuthor()
     {
