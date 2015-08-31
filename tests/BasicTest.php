@@ -13,7 +13,18 @@ class BasicTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $credentials = json_decode(file_get_contents('./tests/credentials.json'));
+        $credentialsFilePath = './tests/credentials.json';
+        if (!file_exists($credentialsFilePath)) {
+            file_put_contents($credentialsFilePath, json_encode([
+                'appId' => null,
+                'appSecret' => '',
+                'accessToken' => '',
+            ], JSON_PRETTY_PRINT));
+
+            echo 'Credentials file created with empty values.';
+        }
+
+        $credentials = json_decode(file_get_contents($credentialsFilePath));
         $this->connection = new Connection($credentials->appId, $credentials->appSecret, $credentials->accessToken);
         $this->connection->setLanguage('en');
     }
