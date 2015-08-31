@@ -6,6 +6,8 @@ use VkApi\Entity\BasicEntity;
 
 class ListResponse extends BasicResponse
 {
+    protected $entityClass = BasicEntity::class;
+
     /**
      * @return int
      *
@@ -20,8 +22,10 @@ class ListResponse extends BasicResponse
      * @param $class
      * @return BasicEntity[]
      */
-    public function getItems($class = BasicEntity::class)
+    public function getItems($class = null)
     {
+        $class = $class ?: $this->entityClass;
+
         return $this->arrayToObjectOfClass($this->getParsedResponse()->response->items, $class);
     }
 

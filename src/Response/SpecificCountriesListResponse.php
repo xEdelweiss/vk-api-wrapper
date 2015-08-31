@@ -4,6 +4,10 @@ namespace VkApi\Response;
 
 use VkApi\Entity\Country;
 
+/**
+ * Class SpecificCountriesListResponse
+ * @package VkApi\Response
+ */
 class SpecificCountriesListResponse extends CountriesListResponse
 {
     /**
@@ -12,14 +16,6 @@ class SpecificCountriesListResponse extends CountriesListResponse
     public function getCountAll()
     {
         return $this->getRequest()->getConnection()->countries->get()->getCountAll();
-    }
-
-    /**
-     * @return int
-     */
-    public function getCount()
-    {
-        return count($this->getParsedResponse()->response);
     }
 
     /**

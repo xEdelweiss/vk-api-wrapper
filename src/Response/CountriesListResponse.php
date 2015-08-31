@@ -5,17 +5,16 @@ namespace VkApi\Response;
 use VkApi\Entity\Country;
 use VkApi\Response\Traits\WithCountAll;
 
+/**
+ * Class CountriesListResponse
+ * @package VkApi\Response
+ *
+ * @method Country[] getItems
+ */
 class CountriesListResponse extends ListResponse
 {
     use WithCountAll;
 
-    /**
-     * @param $class
-     * @return Country[]
-     */
-    public function getItems($class = Country::class)
-    {
-        return parent::getItems($class);
-    }
+    protected $entityClass = Country::class;
 
 }
