@@ -14,7 +14,7 @@ class BasicRequest
     const CONNECTION_TIMEOUT = 5;
     const REQUEST_TIMEOUT = 5;
     const RETRIES_COUNT = 5;
-    const SSL_VERIFICATION = true;
+    const SSL_VERIFICATION = false; // TODO think about this
 
     protected $method;
     protected $parameters;

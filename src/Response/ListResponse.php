@@ -41,6 +41,28 @@ class ListResponse extends BasicResponse
     }
 
     /**
+     * @param $propertyName
+     * @param $value
+     * @return bool|mixed
+     */
+    public function getIndexOf($propertyName, $value)
+    {
+        /** @var BasicEntity[] $items */
+        $items = $this->getItems();
+        $getter = 'get' . ucfirst($propertyName);
+
+        foreach ($items as $index => $item) {
+            if (method_exists($item, $getter) && $item->{$getter}() == $value) {
+                return $index;
+            } elseif ($item->getRawValue($propertyName, false) == $value) {
+                return $index;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @param $array
      * @param $class
      * @return array
