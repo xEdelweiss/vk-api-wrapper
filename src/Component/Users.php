@@ -39,7 +39,7 @@ class Users extends BasicComponent
     {
         $response = $this->get($id, $fields, $nameCase);
 
-        return $response->getItems()[0]; // TODO check that first item exists
+        return $response->getFirstItem();
     }
 
     /**

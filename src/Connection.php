@@ -4,6 +4,7 @@ namespace VkApi;
 
 use VkApi\Component\Countries;
 use VkApi\Component\Messages;
+use VkApi\Component\Regions;
 use VkApi\Component\Users;
 use VkApi\Enum\Language;
 use VkApi\Exception\InvalidEnumValueException;
@@ -16,6 +17,7 @@ use VkApi\Request\BasicRequest;
  * @property Messages $messages Messages Component
  * @property Users $users Users Component
  * @property Countries $countries Countries Component
+ * @property Regions $regions Regions Component
  */
 class Connection
 {
