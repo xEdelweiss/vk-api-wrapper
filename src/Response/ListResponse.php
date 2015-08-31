@@ -8,10 +8,12 @@ class ListResponse extends BasicResponse
 {
     /**
      * @return int
+     *
+     * TODO count without converting
      */
     public function getCount()
     {
-        return $this->getParsedResponse()->response->count;
+        return count($this->getItems());
     }
 
     /**
@@ -21,6 +23,17 @@ class ListResponse extends BasicResponse
     public function getItems($class = BasicEntity::class)
     {
         return $this->arrayToObjectOfClass($this->getParsedResponse()->response->items, $class);
+    }
+
+    /**
+     * @return BasicEntity
+     *
+     * TODO check first element existence
+     * TODO don't convert all elements
+     */
+    public function getFirstItem()
+    {
+        return $this->getItems()[0];
     }
 
     /**
