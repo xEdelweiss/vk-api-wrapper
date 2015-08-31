@@ -18,7 +18,8 @@
     },
     "autoload": {
         "psr-4": {
-            "VkApi\\" : "src/"
+            "VkApi\\" : "src/",
+            "VkApi\\Tests\\" : "tests/"
         }
     }
 }
