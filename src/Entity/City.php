@@ -16,4 +16,14 @@ class City extends BasicEntity
     {
         return $this->getRawValue('title');
     }
+
+    public function getRegionName()
+    {
+        return $this->getRawValue('region');
+    }
+
+    public function getAreaName()
+    {
+        return $this->getRawValue('area');
+    }
 }
