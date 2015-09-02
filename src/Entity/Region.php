@@ -35,8 +35,6 @@ class Region extends BasicEntity
     /**
      * @param string $searchFor
      * @return \VkApi\Response\CitiesListResponse
-     *
-     * TODO handle error when countryId is null
      */
     public function getCities($searchFor = null)
     {
