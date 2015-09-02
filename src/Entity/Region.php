@@ -16,4 +16,19 @@ class Region extends BasicEntity
     {
         return $this->getRawValue('title');
     }
+
+    public function getCountryId()
+    {
+        return $this->getOriginalRequestParameter('country_id');
+    }
+
+    /**
+     * @return null|Country
+     */
+    public function getCountry()
+    {
+        $countryId = $this->getCountryId();
+
+        return $countryId ? $this->getConnection()->countries->getCountry($countryId) : null;
+    }
 }
