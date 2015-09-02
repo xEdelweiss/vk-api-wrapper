@@ -31,4 +31,15 @@ class Region extends BasicEntity
 
         return $countryId ? $this->getConnection()->countries->getCountry($countryId) : null;
     }
+
+    /**
+     * @param string $searchFor
+     * @return \VkApi\Response\CitiesListResponse
+     *
+     * TODO handle error when countryId is null
+     */
+    public function getCities($searchFor = null)
+    {
+        return $this->getConnection()->cities->get($this->getCountryId(), $this->getId(), $searchFor);
+    }
 }

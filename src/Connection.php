@@ -2,6 +2,7 @@
 
 namespace VkApi;
 
+use VkApi\Component\Cities;
 use VkApi\Component\Countries;
 use VkApi\Component\Messages;
 use VkApi\Component\Regions;
@@ -18,6 +19,7 @@ use VkApi\Request\BasicRequest;
  * @property Users $users Users Component
  * @property Countries $countries Countries Component
  * @property Regions $regions Regions Component
+ * @property Cities $cities Cities Component
  */
 class Connection
 {

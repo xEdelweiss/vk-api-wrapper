@@ -26,4 +26,13 @@ class Country extends BasicEntity
     {
         return $this->getConnection()->regions->get($this->getId(), $searchFor);
     }
+
+    /**
+     * @param string $searchFor
+     * @return \VkApi\Response\CitiesListResponse
+     */
+    public function getCities($searchFor = null)
+    {
+        return $this->getConnection()->cities->get($this->getId(), null, $searchFor);
+    }
 }
