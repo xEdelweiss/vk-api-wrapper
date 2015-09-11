@@ -3,6 +3,7 @@
 namespace VkApi\Component;
 
 use VkApi\Entity\Message;
+use VkApi\Enum\Order;
 use VkApi\Response\MessagesListResponse;
 
 class Messages extends BasicComponent
@@ -43,6 +44,19 @@ class Messages extends BasicComponent
     {
         return $this->getMessagesById([$id])
             ->getFirstItem();
+    }
+
+    /**
+     * @param $userId
+     * @param integer $order
+     * @param integer null $count
+     * @param integer null $offset
+     * @return \VkApi\Response\MessagesListResponse
+     */
+    public function getMessagesForUserId($userId, $order = Order::NEW_FIRST, $count = null, $offset = null)
+    {
+        return $this->api->messages
+            ->getHistory($userId, null, $count, $offset, $order);
     }
 
     /**

@@ -35,6 +35,16 @@ abstract class BasicApi
         return $this->connection;
     }
 
+    /**
+     * @param $parameters
+     * @return \VkApi\Request\BasicRequest
+     */
+    protected function createRequest($parameters)
+    {
+        $method = debug_backtrace(false)[1]['function'];
+        return $this->getConnection()->createRequest($this->getFullMethodName($method), $parameters);
+    }
+
     protected function getFullMethodName($method)
     {
         $reflection = new \ReflectionClass(static::class);

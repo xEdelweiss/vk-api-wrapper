@@ -20,7 +20,7 @@ class Users extends BasicApi
             'name_case' => $nameCase
         ]);
 
-        $request = $this->getConnection()->createRequest($this->getFullMethodName('get'), $parameters);
+        $request = $this->createRequest($parameters);
 
         return $request->make(UsersListResponse::class);
     }

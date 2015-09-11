@@ -6,6 +6,7 @@ use VkApi\Response\CitiesListResponse;
 use VkApi\Response\CountriesListResponse;
 use VkApi\Response\RegionsListResponse;
 use VkApi\Response\SpecificCitiesListResponse;
+use VkApi\Response\SpecificCountriesListResponse;
 
 class Database extends BasicApi
 {
@@ -27,7 +28,7 @@ class Database extends BasicApi
             'offset' => $offset,
         ]);
 
-        $request = $this->getConnection()->createRequest($this->getFullMethodName('getCountries'), $parameters);
+        $request = $this->createRequest($parameters);
 
         return $request->make(CountriesListResponse::class);
     }
@@ -44,7 +45,7 @@ class Database extends BasicApi
             'country_ids' => implode(',', $this->ensureIsArray($ids)),
         ]);
 
-        $request = $this->getConnection()->createRequest($this->getFullMethodName('getCountriesById'), $parameters);
+        $request = $this->createRequest($parameters);
 
         return $request->make(SpecificCountriesListResponse::class);
     }
@@ -67,7 +68,7 @@ class Database extends BasicApi
             'offset' => $offset,
         ]);
 
-        $request = $this->getConnection()->createRequest($this->getFullMethodName('getRegions'), $parameters);
+        $request = $this->createRequest($parameters);
 
         return $request->make(RegionsListResponse::class);
     }
@@ -92,7 +93,7 @@ class Database extends BasicApi
             'offset' => $offset,
         ]);
 
-        $request = $this->getConnection()->createRequest($this->getFullMethodName('getCities'), $parameters);
+        $request = $this->createRequest($parameters);
 
         return $request->make(CitiesListResponse::class);
     }
@@ -109,7 +110,7 @@ class Database extends BasicApi
             'city_ids' => implode(',', $this->ensureIsArray($ids)),
         ]);
 
-        $request = $this->getConnection()->createRequest($this->getFullMethodName('getCitiesById'), $parameters);
+        $request = $this->createRequest($parameters);
 
         return $request->make(SpecificCitiesListResponse::class);
     }
