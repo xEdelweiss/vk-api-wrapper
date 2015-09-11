@@ -56,4 +56,20 @@ class Utils
             }
         }
     }
+
+    /**
+     * @param $array
+     * @param $class
+     * @param ...$additionalArguments
+     * @return array
+     */
+    public static function convertArrayToArrayOfObjects($array, $class, ...$additionalArguments)
+    {
+        $reflection = new \ReflectionClass($class);
+        return array_map(function($item) use ($class, $reflection, $additionalArguments){
+            $arguments = $additionalArguments;
+            array_unshift($arguments, $item);
+            return $reflection->newInstanceArgs($arguments);
+        }, $array);
+    }
 }

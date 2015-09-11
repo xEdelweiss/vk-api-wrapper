@@ -127,8 +127,9 @@ class Message extends BasicEntity
 
     public function getForwardedMessages()
     {
-        throw new NotImplemetedException;
-        // TODO fwd_messages http://vk.com/dev/message
+        $messages = $this->getRawValue('fwd_messages');
+
+        return Utils::convertArrayToArrayOfObjects($messages, static::class, [], $this->getConnection());
     }
 
     /**
