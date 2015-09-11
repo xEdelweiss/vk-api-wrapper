@@ -34,5 +34,33 @@ class BasicTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Connection::class, $this->connection);
     }
 
+    public function testAll()
+    {
+        // countries
 
+        $countries = $this->connection->countries->getCountriesByCode(['UA', 'BY']);
+        $countryId = $countries->getFirstItem()->getId();
+        $country = $this->connection->countries->getCountry($countryId);
+
+        // regions
+
+        $regions = $country->getRegions();
+
+        // cities
+
+        $cities = $regions->getFirstItem()->getCities();
+        $cityTitle = $cities->getFirstItem()->getTitle();
+        $this->assertNotNull($cityTitle);
+
+        // messages
+
+        $messages = $this->connection->messages->get(10);
+
+        $messageBody = $messages->getFirstItem()->getText();
+        $this->assertNotNull($messageBody);
+
+        $author = $messages->getFirstItem()->getAuthor();
+        $authorId = $author->getId();
+        $this->assertNotNull($authorId);
+    }
 }
