@@ -3,6 +3,7 @@
 namespace VkApi\Response;
 
 use VkApi\Entity\BasicEntity;
+use VkApi\Utils;
 
 class ListResponse extends BasicResponse
 {
@@ -92,8 +93,6 @@ class ListResponse extends BasicResponse
     {
         $connection = $this->getRequest()->getConnection();
 
-        return array_map(function($item) use ($class, $connection){
-            return new $class($item, $this->getRequest()->getParameters(), $connection);
-        }, $array);
+        return Utils::convertArrayToArrayOfObjects($array, $class, $this->getRequest()->getParameters(), $connection);
     }
 }
