@@ -14,7 +14,7 @@ class Dialogs extends BasicComponent
      * @param null $unread
      * @param null $startMessageId
      * @param null $previewLength
-     * @return \VkApi\Response\BasicResponse
+     * @return \VkApi\Response\DialogsListResponse
      * @throws \Exception
      * @throws \VkApi\Exception\Api\TooManyRequestsException
      */

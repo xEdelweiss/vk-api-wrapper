@@ -17,6 +17,8 @@ class Message extends BasicEntity
 
     /**
      * @return User
+     *
+     * TODO check the difference between from_id and user_id
      */
     public function getAuthor()
     {
@@ -107,10 +109,20 @@ class Message extends BasicEntity
         // TODO geo http://vk.com/dev/message
     }
 
+    public function hasAttachments()
+    {
+        return !!$this->getRawValue('attachments');
+    }
+
     public function getAttachments()
     {
         throw new NotImplemetedException;
         // TODO attachments array of http://vk.com/dev/attachments_m
+    }
+
+    public function hasForwardedMessages()
+    {
+        return !!$this->getRawValue('fwd_messages');
     }
 
     public function getForwardedMessages()
