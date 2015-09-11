@@ -159,7 +159,9 @@ class User extends BasicEntity
      */
     public function changeNameCase($nameCase)
     {
-        $updatedEntity = $this->getConnection()->users->getUser($this->getId(), $this->getOriginalRequestParameter('fields'), $nameCase);
+        $updatedEntity = $this->getConnection()->users
+            ->getUser($this->getId(), $this->getOriginalRequestParameter('fields'), $nameCase);
+
         $this->mergeWith($updatedEntity);
 
         return $this;
@@ -169,7 +171,8 @@ class User extends BasicEntity
     {
         $nameCase = $this->getOriginalRequestParameter('name_case');
 
-        return $this->getConnection()->users->getUserWithFullInfo($this->getId(), $nameCase);
+        return $this->getConnection()->users
+            ->getUserWithFullInfo($this->getId(), $nameCase);
     }
 
 }

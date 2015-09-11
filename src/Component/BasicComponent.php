@@ -4,6 +4,18 @@ namespace VkApi\Component;
 
 use VkApi\Connection;
 
+/**
+ * Class BasicComponent
+ * @package VkApi\Component
+ *
+ * @property Api $api Low-level Api Component
+ * @property Messages $messages Messages Component
+ * @property Dialogs $dialogs Dialogs Component
+ * @property Users $users Users Component
+ * @property Countries $countries Countries Component
+ * @property Regions $regions Regions Component
+ * @property Cities $cities Cities Component
+ */
 abstract class BasicComponent
 {
     static $prefix;
@@ -19,12 +31,11 @@ abstract class BasicComponent
     }
 
     /**
-     * @param array $parameters
-     * @return array
+     * FIXME brr
      */
-    protected function prepareParameters(array $parameters)
+    public function __get($name)
     {
-        return array_filter($parameters);
+        return $this->getConnection()->{$name};
     }
 
     /**
@@ -33,29 +44,5 @@ abstract class BasicComponent
     protected function getConnection()
     {
         return $this->connection;
-    }
-
-    protected function getFullMethodName($method)
-    {
-        return static::$prefix . '.' . $method;
-    }
-
-    /**
-     * @param $array
-     * @return array
-     *
-     * TODO objects?
-     */
-    protected function ensureIsArray($array)
-    {
-        if (is_null($array)) {
-            return [];
-        }
-
-        if (is_scalar($array)) {
-            return [$array];
-        }
-
-        return $array;
     }
 }

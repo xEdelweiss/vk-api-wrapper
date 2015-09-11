@@ -2,6 +2,7 @@
 
 namespace VkApi;
 
+use VkApi\Component\Api;
 use VkApi\Component\Cities;
 use VkApi\Component\Countries;
 use VkApi\Component\Dialogs;
@@ -16,6 +17,7 @@ use VkApi\Request\BasicRequest;
  * Class Connection
  * @package VkApi
  *
+ * @property Api $api Low-level Api Component
  * @property Messages $messages Messages Component
  * @property Dialogs $dialogs Dialogs Component
  * @property Users $users Users Component

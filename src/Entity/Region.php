@@ -29,7 +29,9 @@ class Region extends BasicEntity
     {
         $countryId = $this->getCountryId();
 
-        return $countryId ? $this->getConnection()->countries->getCountry($countryId) : null;
+        return $countryId
+            ? $this->getConnection()->countries->getCountry($countryId)
+            : null;
     }
 
     /**
@@ -38,6 +40,7 @@ class Region extends BasicEntity
      */
     public function getCities($searchFor = null)
     {
-        return $this->getConnection()->cities->get($this->getCountryId(), $this->getId(), $searchFor);
+        return $this->getConnection()->cities
+            ->get($this->getCountryId(), $this->getId(), $searchFor);
     }
 }

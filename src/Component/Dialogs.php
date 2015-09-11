@@ -11,25 +11,16 @@ class Dialogs extends BasicComponent
     /**
      * @param null $count
      * @param null $offset
-     * @param null $unread
      * @param null $startMessageId
      * @param null $previewLength
-     * @return \VkApi\Response\DialogsListResponse
-     * @throws \Exception
-     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     *
+     * @return DialogsListResponse
+     *
+     * TODO convert it to MessageListResponse?
      */
-    public function getDialogs($count = null, $offset = null, $unread = null, $startMessageId = null, $previewLength = null)
+    public function getUnread($count = null, $offset = null, $startMessageId = null, $previewLength = null)
     {
-        $parameters = $this->prepareParameters([
-            'offset' => $offset,
-            'count' => $count,
-            'unread' => $unread,
-            'start_message_id' => $startMessageId,
-            'preview_length' => $previewLength,
-        ]);
-
-        $request = $this->getConnection()->createRequest($this->getFullMethodName('getDialogs'), $parameters);
-
-        return $request->make(DialogsListResponse::class);
+        return $this->api->messages
+            ->getDialogs($count, $offset, true, $startMessageId, $previewLength);
     }
 }

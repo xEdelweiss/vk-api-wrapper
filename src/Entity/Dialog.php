@@ -15,6 +15,8 @@ class Dialog extends BasicEntity
     public function getMessage()
     {
         $messageId = $this->getRawData()->message->id;
-        return $this->getConnection()->messages->getMessage($messageId);
+
+        return $this->getConnection()->messages
+            ->getMessage($messageId);
     }
 }

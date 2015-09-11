@@ -11,25 +11,6 @@ class Users extends BasicComponent
     static $prefix = 'users';
 
     /**
-     * @param array $userIds
-     * @param null $fields
-     * @param null $nameCase
-     * @return UsersListResponse
-     */
-    public function get($userIds = null, $fields = null, $nameCase = null)
-    {
-        $parameters = $this->prepareParameters([
-            'user_ids' => implode(',', $this->ensureIsArray($userIds)),
-            'fields' => implode(',', $this->ensureIsArray($fields)),
-            'name_case' => $nameCase
-        ]);
-
-        $request = $this->getConnection()->createRequest($this->getFullMethodName('get'), $parameters);
-
-        return $request->make(UsersListResponse::class);
-    }
-
-    /**
      * @param $id
      * @param array $fields
      * @param string $nameCase
@@ -37,9 +18,19 @@ class Users extends BasicComponent
      */
     public function getUser($id = null, $fields = null, $nameCase = null)
     {
-        $response = $this->get($id, $fields, $nameCase);
+        return $this->api->users
+            ->get($id, $fields, $nameCase)
+            ->getFirstItem();
+    }
 
-        return $response->getFirstItem();
+    /**
+     * @param array|null $fields
+     * @param string|null $nameCase
+     * @return User
+     */
+    public function getCurrentUser($fields = null, $nameCase = null)
+    {
+        return $this->getUser(null, $fields, $nameCase);
     }
 
     /**

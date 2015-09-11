@@ -25,7 +25,8 @@ class Message extends BasicEntity
         $fromId = $this->getRawValue('from_id');
         $userId = $this->getRawValue('user_id');
 
-        return $this->getConnection()->users->getUser(Utils::getNotNull($fromId, $userId));
+        return $this->getConnection()->users
+            ->getUser(Utils::getNotNull($fromId, $userId));
     }
 
     /**
@@ -175,7 +176,8 @@ class Message extends BasicEntity
             return null;
         }
 
-        return $this->getConnection()->users->getUser($adminId);
+        return $this->getConnection()->users
+            ->getUser($adminId);
     }
 
     /**

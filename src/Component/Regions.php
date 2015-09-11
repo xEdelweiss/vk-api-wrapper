@@ -9,25 +9,13 @@ class Regions extends BasicComponent
     static $prefix = 'database';
 
     /**
-     * @param $countryId
-     * @param string|null $searchBy
-     * @param integer|null $count
-     * @param integer|null $offset
-     * @return \VkApi\Response\RegionsListResponse
-     * @throws \Exception
-     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     * @param integer $countryId
+     * @param string|null $searchFor
+     * @return RegionsListResponse
      */
-    public function get($countryId, $searchBy = null, $count = null, $offset = null)
+    public function getByCountryId($countryId, $searchFor = null)
     {
-        $parameters = $this->prepareParameters([
-            'country_id' => $countryId,
-            'q' => $searchBy,
-            'count' => $count,
-            'offset' => $offset,
-        ]);
-
-        $request = $this->getConnection()->createRequest($this->getFullMethodName('getRegions'), $parameters);
-
-        return $request->make(RegionsListResponse::class);
+        return $this->api->database
+            ->getRegions($countryId, $searchFor);
     }
 }
