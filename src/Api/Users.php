@@ -9,7 +9,7 @@ use VkApi\Response\UsersListResponse;
 class Users extends BasicApi
 {
     /**
-     * Возвращает расширенную информацию о пользователях.
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ СЂР°СЃС€РёСЂРµРЅРЅСѓСЋ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏС….
      *
      * @param array $userIds
      * @param array|null $fields
@@ -18,7 +18,7 @@ class Users extends BasicApi
      */
     public function get($userIds = null, $fields = null, $nameCase = null)
     {
-        // поля counters, military будут возвращены только в случае, если передан ровно один user_id
+        // РїРѕР»СЏ counters, military Р±СѓРґСѓС‚ РІРѕР·РІСЂР°С‰РµРЅС‹ С‚РѕР»СЊРєРѕ РІ СЃР»СѓС‡Р°Рµ, РµСЃР»Рё РїРµСЂРµРґР°РЅ СЂРѕРІРЅРѕ РѕРґРёРЅ user_id
         $parameters = $this->prepareParametersFromArguments();
         $request = $this->createRequest($parameters);
 
@@ -26,7 +26,7 @@ class Users extends BasicApi
     }
 
     /**
-     * Возвращает список пользователей в соответствии с заданным критерием поиска.
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃРїРёСЃРѕРє РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ Р·Р°РґР°РЅРЅС‹Рј РєСЂРёС‚РµСЂРёРµРј РїРѕРёСЃРєР°.
      *
      * @param UserSearchQuery $query
      * @return UsersListResponse
@@ -40,7 +40,7 @@ class Users extends BasicApi
     }
 
     /**
-     * Возвращает информацию о том, установил ли пользователь приложение.
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ С‚РѕРј, СѓСЃС‚Р°РЅРѕРІРёР» Р»Рё РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РїСЂРёР»РѕР¶РµРЅРёРµ.
      *
      * @param integer|null $userId
      * @return bool
@@ -58,7 +58,7 @@ class Users extends BasicApi
     }
 
     /**
-     * Возвращает список идентификаторов пользователей и сообществ, которые входят в список подписок пользователя.
+     * Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃРїРёСЃРѕРє РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂРѕРІ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ Рё СЃРѕРѕР±С‰РµСЃС‚РІ, РєРѕС‚РѕСЂС‹Рµ РІС…РѕРґСЏС‚ РІ СЃРїРёСЃРѕРє РїРѕРґРїРёСЃРѕРє РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ.
      *
      * @param integer|null $userId
      * @param bool|null $extended
