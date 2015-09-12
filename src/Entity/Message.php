@@ -8,7 +8,7 @@ use VkApi\Entity\Traits\DisableExtendedEntityRequest;
 use VkApi\Entity\Traits\WithId;
 use VkApi\Enum\ChatPhotoSize;
 use VkApi\Exception\Invalid\InvalidPhotoSizeException;
-use VkApi\Exception\NotImplemetedException;
+use VkApi\Exception\NotImplementedException;
 use VkApi\Utils;
 
 class Message extends BasicEntity
@@ -106,7 +106,7 @@ class Message extends BasicEntity
 
     public function getGeoCoordinates()
     {
-        throw new NotImplemetedException;
+        throw new NotImplementedException;
         // TODO geo http://vk.com/dev/message
     }
 
@@ -117,7 +117,7 @@ class Message extends BasicEntity
 
     public function getAttachments()
     {
-        throw new NotImplemetedException;
+        throw new NotImplementedException;
         // TODO attachments array of http://vk.com/dev/attachments_m
     }
 
@@ -219,13 +219,13 @@ class Message extends BasicEntity
             return null;
         }
 
-        throw new NotImplemetedException;
+        throw new NotImplementedException;
         // TODO action_*
     }
 
     public function getPushSettings()
     {
-        throw new NotImplemetedException;
+        throw new NotImplementedException;
         // TODO push_settings
     }
 

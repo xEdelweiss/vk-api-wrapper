@@ -10,8 +10,19 @@ use VkApi\Entity\User;
  */
 class UsersListResponse extends ListResponse
 {
+    /**
+     * @param null $class
+     * @return array
+     *
+     * TODO split to SpecificUsersListResponse?
+     */
     public function getItems($class = User::class)
     {
-        return $this->arrayToObjectOfClass($this->getParsedResponse()->response, $class);
+        return $this->arrayToObjectOfClass(
+            isset($this->getParsedResponse()->response->items)
+                ? $this->getParsedResponse()->response->items
+                : $this->getParsedResponse()->response,
+            $class
+        );
     }
 }
