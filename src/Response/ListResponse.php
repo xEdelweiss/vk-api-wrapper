@@ -64,21 +64,26 @@ class ListResponse extends BasicResponse
     }
 
     /**
-     * @param $propertyName
+     * @param $propertyNames
      * @return array
      */
-    public function getColumn($propertyName)
+    public function getColumn(...$propertyNames)
     {
         $result = [];
-
         /** @var BasicEntity[] $items */
         $items = $this->getItems();
-        $getter = 'get' . ucfirst($propertyName);
 
         foreach ($items as $index => $item) {
-            $result[] = method_exists($item, $getter)
-                ? $item->{$getter}()
-                : $item->getRawValue($propertyName, false);
+            $resultItem = [];
+
+            foreach($propertyNames as $propertyName) {
+                $getter = 'get' . ucfirst($propertyName);
+                $resultItem[$propertyName] = method_exists($item, $getter)
+                    ? $item->{$getter}()
+                    : $item->getRawValue($propertyName, false);
+            }
+
+            $result[] = $resultItem;
         }
 
         return $result;

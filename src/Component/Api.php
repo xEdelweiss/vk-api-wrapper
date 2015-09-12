@@ -5,6 +5,7 @@ namespace VkApi\Component;
 use VkApi\Api\Users as UsersApi;
 use VkApi\Api\Messages as MessagesApi;
 use VkApi\Api\Database as DatabaseApi;
+use VkApi\Api\Friends as FriendsApi;
 
 /**
  * Class Api
@@ -13,6 +14,7 @@ use VkApi\Api\Database as DatabaseApi;
  * @property UsersApi $users
  * @property MessagesApi $messages
  * @property DatabaseApi $database
+ * @property FriendsApi $friends
  *
  * FIXME brr
  */

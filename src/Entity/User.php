@@ -31,6 +31,15 @@ class User extends BasicEntity
     /**
      * @return string
      */
+    public function getFullName()
+    {
+        $result = [$this->getFirstName(), $this->getLastName()];
+        return implode(' ', $result);
+    }
+
+    /**
+     * @return string
+     */
     public function getNickName()
     {
         return $this->getRawValue('nickname');
