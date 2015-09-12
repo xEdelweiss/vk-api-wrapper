@@ -2,6 +2,8 @@
 
 namespace VkApi\Api;
 
+use VkApi\Enum\NameCase;
+use VkApi\Enum\Radius;
 use VkApi\Query\UserSearchQuery;
 use VkApi\Response\BasicResponse;
 use VkApi\Response\UsersListResponse;
@@ -11,12 +13,12 @@ class Users extends BasicApi
     /**
      * Возвращает расширенную информацию о пользователях.
      *
-     * @param array $userIds
+     * @param array|null $userIds
      * @param array|null $fields
      * @param string|null $nameCase
      * @return UsersListResponse
      */
-    public function get($userIds = null, $fields = null, $nameCase = null)
+    public function get($userIds = null, $fields = null, $nameCase = NameCase::NOMINATIVE)
     {
         // поля counters, military будут возвращены только в случае, если передан ровно один user_id
         $parameters = $this->prepareParametersFromArguments();
@@ -76,5 +78,49 @@ class Users extends BasicApi
 
         // TODO implement response for this call
         return $request->make(BasicResponse::class);
+    }
+
+    /**
+     * Возвращает список идентификаторов пользователей, которые являются подписчиками пользователя.
+     * Идентификаторы пользователей в списке отсортированы в порядке убывания времени их добавления.
+     *
+     * @param integer|null $userId
+     * @param array|null $fields
+     * @param string|null $nameCase
+     * @param integer|null $count
+     * @param integer|null $offset
+     * @return UsersListResponse
+     * @throws \Exception
+     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     */
+    public function getFollowers($userId = null, $fields = null, $nameCase = NameCase::NOMINATIVE, $count = null, $offset = null)
+    {
+        $parameters = $this->prepareParametersFromArguments('fields');
+        $request = $this->createRequest($parameters);
+
+        return $request->make(UsersListResponse::class);
+    }
+
+    /**
+     * Индексирует текущее местоположение пользователя и возвращает список пользователей, которые находятся вблизи.
+     *
+     * @param float $latitude
+     * @param float $longitude
+     * @param integer $accuracy
+     * @param integer $radius
+     * @param array|null $fields
+     * @param string|null $nameCase
+     * @param integer|null $timeout
+     * @return UsersListResponse
+     * @throws \Exception
+     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     */
+    public function getNearby($latitude, $longitude, $accuracy, $radius = Radius::METERS_300, $fields = null, $nameCase = NameCase::NOMINATIVE, $timeout = null)
+    {
+        $parameters = $this->prepareParametersFromArguments(['fields']);
+        $request = $this->createRequest($parameters);
+
+        // TODO implement response for this call
+        return $request->make(UsersListResponse::class);
     }
 }
