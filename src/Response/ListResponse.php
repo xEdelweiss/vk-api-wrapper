@@ -77,10 +77,19 @@ class ListResponse extends BasicResponse
             $resultItem = [];
 
             foreach($propertyNames as $propertyName) {
-                $getter = 'get' . ucfirst($propertyName);
-                $resultItem[$propertyName] = method_exists($item, $getter)
-                    ? $item->{$getter}()
-                    : $item->getRawValue($propertyName, false);
+                $getters = [
+                    'get' . ucfirst($propertyName),
+                    'is' . ucfirst($propertyName),
+                ];
+
+                foreach ($getters as $getter) {
+                    if (method_exists($item, $getter)) {
+                        $resultItem[$propertyName] = $item->{$getter}();
+                        continue(2);
+                    }
+                }
+
+                $resultItem[$propertyName] = $item->getRawValue($propertyName);
             }
 
             $result[] = $resultItem;
