@@ -54,6 +54,22 @@ class User extends BasicEntity
     }
 
     /**
+     * @return bool
+     */
+    public function isOnlineFromMobile()
+    {
+        return (bool) $this->getRawValue('online_mobile');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOnlineFromApp()
+    {
+        return (bool) $this->getRawValue('online_app');
+    }
+
+    /**
      * @return Carbon|null
      */
     public function getBirthday()
