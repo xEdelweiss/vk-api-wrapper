@@ -1,6 +1,6 @@
 # Установка
 
-_tbd_
+    composer require xedelweiss/vk-api-wrapper
 
 # Использование
 
