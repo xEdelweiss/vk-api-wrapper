@@ -7,6 +7,7 @@ use VkApi\Response\CountriesListResponse;
 use VkApi\Response\RegionsListResponse;
 use VkApi\Response\SpecificCitiesListResponse;
 use VkApi\Response\SpecificCountriesListResponse;
+use VkApi\Response\StreetsListResponse;
 
 class Database extends BasicApi
 {
@@ -113,5 +114,20 @@ class Database extends BasicApi
         $request = $this->createRequest($parameters);
 
         return $request->make(SpecificCitiesListResponse::class);
+    }
+
+    /**
+     * @param $streetIds
+     * @return \VkApi\Response\StreetsListResponse
+     * @throws \Exception
+     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     */
+    public function getStreetsById($streetIds)
+    {
+        $parameters = $this->prepareParametersFromArguments(['streetIds']);
+
+        $request = $this->createRequest($parameters);
+
+        return $request->make(StreetsListResponse::class);
     }
 }
