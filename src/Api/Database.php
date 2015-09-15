@@ -4,6 +4,7 @@ namespace VkApi\Api;
 
 use VkApi\Response\CitiesListResponse;
 use VkApi\Response\CountriesListResponse;
+use VkApi\Response\FacultiesListResponse;
 use VkApi\Response\RegionsListResponse;
 use VkApi\Response\SchoolClassesListResponse;
 use VkApi\Response\SchoolsListResponse;
@@ -179,10 +180,26 @@ class Database extends BasicApi
      */
     public function getSchoolClasses($countryId = null)
     {
-        $parameters = $this->prepareParametersFromArguments([], []);
+        $parameters = $this->prepareParametersFromArguments();
 
         return $this->createRequest($parameters)
             ->make(SchoolClassesListResponse::class);
+    }
+
+    /**
+     * @param $universityId
+     * @param null $count
+     * @param null $offset
+     * @return \VkApi\Response\FacultiesListResponse
+     * @throws \Exception
+     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     */
+    public function getFaculties($universityId, $count = null, $offset = null)
+    {
+        $parameters = $this->prepareParametersFromArguments();
+
+        return $this->createRequest($parameters)
+            ->make(FacultiesListResponse::class);
     }
 
 }

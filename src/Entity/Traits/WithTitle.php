@@ -12,6 +12,6 @@ trait WithTitle
     public function getTitle()
     {
         /** @var $this BasicEntity */
-        return (int) $this->getRawValue('title', false);
+        return $this->getRawValue('title');
     }
 }
