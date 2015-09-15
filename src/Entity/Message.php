@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Intervention\Image\ImageManagerStatic;
 use VkApi\Entity\Traits\DisableExtendedEntityRequest;
 use VkApi\Entity\Traits\WithId;
+use VkApi\Entity\Traits\WithTitle;
 use VkApi\Enum\ChatPhotoSize;
 use VkApi\Exception\Invalid\InvalidPhotoSizeException;
 use VkApi\Exception\NotImplementedException;
@@ -13,7 +14,7 @@ use VkApi\Utils;
 
 class Message extends BasicEntity
 {
-    use WithId, DisableExtendedEntityRequest;
+    use WithId, WithTitle, DisableExtendedEntityRequest;
 
     /**
      * @return User
@@ -35,14 +36,6 @@ class Message extends BasicEntity
     public function getText()
     {
         return $this->getRawValue('body');
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->getRawValue('title');
     }
 
     /**

@@ -4,16 +4,9 @@ namespace VkApi\Entity;
 
 use VkApi\Entity\Traits\DisableExtendedEntityRequest;
 use VkApi\Entity\Traits\WithId;
+use VkApi\Entity\Traits\WithTitle;
 
 class University extends BasicEntity
 {
-    use WithId, DisableExtendedEntityRequest;
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->getRawValue('title');
-    }
+    use WithId, WithTitle, DisableExtendedEntityRequest;
 }

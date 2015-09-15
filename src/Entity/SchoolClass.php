@@ -5,10 +5,11 @@ namespace VkApi\Entity;
 use VkApi\Connection;
 use VkApi\Entity\Traits\DisableExtendedEntityRequest;
 use VkApi\Entity\Traits\WithId;
+use VkApi\Entity\Traits\WithTitle;
 
 class SchoolClass extends BasicEntity
 {
-    use WithId, DisableExtendedEntityRequest;
+    use WithId, WithTitle, DisableExtendedEntityRequest;
 
     public function __construct($data, $originalRequestParameters, Connection $connection)
     {
@@ -18,13 +19,5 @@ class SchoolClass extends BasicEntity
         ];
 
         parent::__construct((object)$modifiedData, $originalRequestParameters, $connection);
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->getRawValue('title');
     }
 }
