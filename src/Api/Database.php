@@ -8,6 +8,7 @@ use VkApi\Response\RegionsListResponse;
 use VkApi\Response\SpecificCitiesListResponse;
 use VkApi\Response\SpecificCountriesListResponse;
 use VkApi\Response\StreetsListResponse;
+use VkApi\Response\UniversitiesListResponse;
 
 class Database extends BasicApi
 {
@@ -130,4 +131,23 @@ class Database extends BasicApi
 
         return $request->make(StreetsListResponse::class);
     }
+
+    /**
+     * @param integer $cityId
+     * @param integer|null $countryId
+     * @param string|null $searchFor
+     * @param integer|null $count
+     * @param integer|null $offset
+     * @return \VkApi\Response\UniversitiesListResponse
+     * @throws \Exception
+     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     */
+    public function getUniversities($cityId, $countryId = null, $searchFor = null, $count = null, $offset = null)
+    {
+        $parameters = $this->prepareParametersFromArguments([], ['searchFor' => 'q']);
+
+        return $this->createRequest($parameters)
+            ->make(UniversitiesListResponse::class);
+    }
+
 }
