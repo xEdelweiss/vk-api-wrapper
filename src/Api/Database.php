@@ -5,6 +5,8 @@ namespace VkApi\Api;
 use VkApi\Response\CitiesListResponse;
 use VkApi\Response\CountriesListResponse;
 use VkApi\Response\RegionsListResponse;
+use VkApi\Response\SchoolClassesListResponse;
+use VkApi\Response\SchoolsListResponse;
 use VkApi\Response\SpecificCitiesListResponse;
 use VkApi\Response\SpecificCountriesListResponse;
 use VkApi\Response\StreetsListResponse;
@@ -141,6 +143,8 @@ class Database extends BasicApi
      * @return \VkApi\Response\UniversitiesListResponse
      * @throws \Exception
      * @throws \VkApi\Exception\Api\TooManyRequestsException
+     *
+     * TODO remove countryId?
      */
     public function getUniversities($cityId, $countryId = null, $searchFor = null, $count = null, $offset = null)
     {
@@ -148,6 +152,37 @@ class Database extends BasicApi
 
         return $this->createRequest($parameters)
             ->make(UniversitiesListResponse::class);
+    }
+
+    /**
+     * @param integer $cityId
+     * @param string|null $searchFor
+     * @param integer|null $count
+     * @param integer|null $offset
+     * @return \VkApi\Response\SchoolsListResponse
+     * @throws \Exception
+     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     */
+    public function getSchools($cityId, $searchFor = null, $count = null, $offset = null)
+    {
+        $parameters = $this->prepareParametersFromArguments([], ['searchFor' => 'q']);
+
+        return $this->createRequest($parameters)
+            ->make(SchoolsListResponse::class);
+    }
+
+    /**
+     * @param integer $countryId
+     * @return \VkApi\Response\SchoolClassesListResponse
+     * @throws \Exception
+     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     */
+    public function getSchoolClasses($countryId = null)
+    {
+        $parameters = $this->prepareParametersFromArguments([], []);
+
+        return $this->createRequest($parameters)
+            ->make(SchoolClassesListResponse::class);
     }
 
 }
