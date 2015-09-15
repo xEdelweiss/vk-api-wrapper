@@ -2,6 +2,8 @@
 
 namespace VkApi\Api;
 
+use Exception;
+use VkApi\Exception\Api\TooManyRequestsException;
 use VkApi\Response\CitiesListResponse;
 use VkApi\Response\CountriesListResponse;
 use VkApi\Response\FacultiesListResponse;
@@ -14,170 +16,184 @@ use VkApi\Response\SpecificCountriesListResponse;
 use VkApi\Response\StreetsListResponse;
 use VkApi\Response\UniversitiesListResponse;
 
+/**
+ * Class Database
+ * @package VkApi\Api
+ */
 class Database extends BasicApi
 {
     /**
+     * Returns a list of countries.
+     *
      * @param bool|null $needAll
      * @param array|null $code
      * @param integer|null $count
      * @param integer|null $offset
-     * @return \VkApi\Response\CountriesListResponse
-     * @throws \Exception
-     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     *
+     * @return CountriesListResponse
+     *
+     * @throws Exception
+     * @throws TooManyRequestsException
      */
     public function getCountries($needAll = null, $code = null, $count = null, $offset = null)
     {
-        $parameters = $this->prepareParameters([
-            'need_all' => $needAll,
-            'code' => implode(',', $this->ensureIsArray($code)),
-            'count' => $count,
-            'offset' => $offset,
-        ]);
+        $parameters = $this->prepareParametersFromArguments(['code']);
 
-        $request = $this->createRequest($parameters);
-
-        return $request->make(CountriesListResponse::class);
+        return $this->createRequest($parameters)
+            ->make(CountriesListResponse::class);
     }
 
     /**
-     * @param array $ids
-     * @return \VkApi\Response\CountriesListResponse
-     * @throws \Exception
-     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     * Returns information about countries by their IDs.
+     *
+     * @param integer|array $countryIds
+     *
+     * @return CountriesListResponse
+     *
+     * @throws Exception
+     * @throws TooManyRequestsException
      */
-    public function getCountriesById($ids)
+    public function getCountriesById($countryIds)
     {
-        $parameters = $this->prepareParameters([
-            'country_ids' => implode(',', $this->ensureIsArray($ids)),
-        ]);
+        $parameters = $this->prepareParametersFromArguments(['countryIds']);
 
-        $request = $this->createRequest($parameters);
-
-        return $request->make(SpecificCountriesListResponse::class);
+        return $this->createRequest($parameters)
+            ->make(SpecificCountriesListResponse::class);
     }
 
     /**
-     * @param $countryId
+     * Returns a list of regions.
+     *
+     * @param integer $countryId
      * @param string|null $searchBy
      * @param integer|null $count
      * @param integer|null $offset
-     * @return \VkApi\Response\RegionsListResponse
-     * @throws \Exception
-     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     *
+     * @return RegionsListResponse
+     *
+     * @throws Exception
+     * @throws TooManyRequestsException
      */
     public function getRegions($countryId, $searchBy = null, $count = null, $offset = null)
     {
-        $parameters = $this->prepareParameters([
-            'country_id' => $countryId,
-            'q' => $searchBy,
-            'count' => $count,
-            'offset' => $offset,
-        ]);
+        $parameters = $this->prepareParametersFromArguments([], ['searchBy' => 'q']);
 
-        $request = $this->createRequest($parameters);
-
-        return $request->make(RegionsListResponse::class);
+        return $this->createRequest($parameters)
+            ->make(RegionsListResponse::class);
     }
 
     /**
+     * Returns a list of cities.
+     *
      * @param integer $countryId
      * @param integer|null $regionId
      * @param string|null $searchBy
      * @param integer|null $count
      * @param integer|null $offset
+     *
      * @return CitiesListResponse
-     * @throws \Exception
-     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     *
+     * @throws Exception
+     * @throws TooManyRequestsException
      */
     public function getCities($countryId, $regionId = null, $searchBy = null, $count = null, $offset = null)
     {
-        $parameters = $this->prepareParameters([
-            'country_id' => $countryId,
-            'region_id' => $regionId,
-            'q' => $searchBy,
-            'count' => $count,
-            'offset' => $offset,
-        ]);
+        $parameters = $this->prepareParametersFromArguments([], ['searchBy' => 'q']);
 
-        $request = $this->createRequest($parameters);
-
-        return $request->make(CitiesListResponse::class);
+        return $this->createRequest($parameters)
+            ->make(CitiesListResponse::class);
     }
 
     /**
-     * @param array $ids
+     * Returns information about cities by their IDs.
+     *
+     * @param array $cityIds
+     *
      * @return \VkApi\Response\CitiesListResponse
-     * @throws \Exception
-     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     *
+     * @throws Exception
+     * @throws TooManyRequestsException
      */
-    public function getCitiesById($ids)
+    public function getCitiesById($cityIds)
     {
-        $parameters = $this->prepareParameters([
-            'city_ids' => implode(',', $this->ensureIsArray($ids)),
-        ]);
+        $parameters = $this->prepareParametersFromArguments(['cityIds']);
 
-        $request = $this->createRequest($parameters);
-
-        return $request->make(SpecificCitiesListResponse::class);
+        return $this->createRequest($parameters)
+            ->make(SpecificCitiesListResponse::class);
     }
 
     /**
+     * Returns information about streets by their IDs.
+     *
      * @param $streetIds
-     * @return \VkApi\Response\StreetsListResponse
-     * @throws \Exception
-     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     *
+     * @return StreetsListResponse
+     *
+     * @throws Exception
+     * @throws TooManyRequestsException
      */
     public function getStreetsById($streetIds)
     {
         $parameters = $this->prepareParametersFromArguments(['streetIds']);
 
-        $request = $this->createRequest($parameters);
-
-        return $request->make(StreetsListResponse::class);
+        return $this->createRequest($parameters)
+            ->make(StreetsListResponse::class);
     }
 
     /**
+     * Returns a list of higher education institutions.
+     *
      * @param integer $cityId
      * @param integer|null $countryId
-     * @param string|null $searchFor
+     * @param string|null $searchBy
      * @param integer|null $count
      * @param integer|null $offset
+     *
      * @return \VkApi\Response\UniversitiesListResponse
-     * @throws \Exception
-     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     *
+     * @throws Exception
+     * @throws TooManyRequestsException
      *
      * TODO remove countryId?
      */
-    public function getUniversities($cityId, $countryId = null, $searchFor = null, $count = null, $offset = null)
+    public function getUniversities($cityId, $countryId = null, $searchBy = null, $count = null, $offset = null)
     {
-        $parameters = $this->prepareParametersFromArguments([], ['searchFor' => 'q']);
+        $parameters = $this->prepareParametersFromArguments([], ['searchBy' => 'q']);
 
         return $this->createRequest($parameters)
             ->make(UniversitiesListResponse::class);
     }
 
     /**
+     * Returns a list of schools.
+     *
      * @param integer $cityId
-     * @param string|null $searchFor
+     * @param string|null $searchBy
      * @param integer|null $count
      * @param integer|null $offset
-     * @return \VkApi\Response\SchoolsListResponse
-     * @throws \Exception
-     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     *
+     * @return SchoolsListResponse
+     *
+     * @throws Exception
+     * @throws TooManyRequestsException
      */
-    public function getSchools($cityId, $searchFor = null, $count = null, $offset = null)
+    public function getSchools($cityId, $searchBy = null, $count = null, $offset = null)
     {
-        $parameters = $this->prepareParametersFromArguments([], ['searchFor' => 'q']);
+        $parameters = $this->prepareParametersFromArguments([], ['searchBy' => 'q']);
 
         return $this->createRequest($parameters)
             ->make(SchoolsListResponse::class);
     }
 
     /**
+     * Returns a list of school classes.
+     *
      * @param integer $countryId
-     * @return \VkApi\Response\SchoolClassesListResponse
-     * @throws \Exception
-     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     *
+     * @return SchoolClassesListResponse
+     *
+     * @throws Exception
+     * @throws TooManyRequestsException
      */
     public function getSchoolClasses($countryId = null)
     {
@@ -188,12 +204,16 @@ class Database extends BasicApi
     }
 
     /**
+     * Returns a list of faculties (i.e., university departments).
+     *
      * @param integer $universityId
      * @param integer|null $count
      * @param integer|null $offset
-     * @return \VkApi\Response\FacultiesListResponse
-     * @throws \Exception
-     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     *
+     * @return FacultiesListResponse
+     *
+     * @throws Exception
+     * @throws TooManyRequestsException
      */
     public function getFaculties($universityId, $count = null, $offset = null)
     {
@@ -204,12 +224,16 @@ class Database extends BasicApi
     }
 
     /**
+     * Returns list of chairs on a specified faculty.
+     *
      * @param integer $facultyId
      * @param integer|null $count
      * @param integer|null $offset
-     * @return \VkApi\Response\FacultiesListResponse
-     * @throws \Exception
-     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     *
+     * @return FacultiesListResponse
+     *
+     * @throws Exception
+     * @throws TooManyRequestsException
      */
     public function getChairs($facultyId, $count = null, $offset = null)
     {
