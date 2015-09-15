@@ -5,6 +5,7 @@ namespace VkApi\Api;
 use VkApi\Response\CitiesListResponse;
 use VkApi\Response\CountriesListResponse;
 use VkApi\Response\FacultiesListResponse;
+use VkApi\Response\FacultyChairsListResponse;
 use VkApi\Response\RegionsListResponse;
 use VkApi\Response\SchoolClassesListResponse;
 use VkApi\Response\SchoolsListResponse;
@@ -187,9 +188,9 @@ class Database extends BasicApi
     }
 
     /**
-     * @param $universityId
-     * @param null $count
-     * @param null $offset
+     * @param integer $universityId
+     * @param integer|null $count
+     * @param integer|null $offset
      * @return \VkApi\Response\FacultiesListResponse
      * @throws \Exception
      * @throws \VkApi\Exception\Api\TooManyRequestsException
@@ -200,6 +201,22 @@ class Database extends BasicApi
 
         return $this->createRequest($parameters)
             ->make(FacultiesListResponse::class);
+    }
+
+    /**
+     * @param integer $facultyId
+     * @param integer|null $count
+     * @param integer|null $offset
+     * @return \VkApi\Response\FacultiesListResponse
+     * @throws \Exception
+     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     */
+    public function getChairs($facultyId, $count = null, $offset = null)
+    {
+        $parameters = $this->prepareParametersFromArguments();
+
+        return $this->createRequest($parameters)
+            ->make(FacultyChairsListResponse::class);
     }
 
 }
