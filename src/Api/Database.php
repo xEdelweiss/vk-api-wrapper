@@ -25,17 +25,17 @@ class Database extends BasicApi
     /**
      * Returns a list of countries.
      *
-     * @param bool|null $needAll
-     * @param array|null $code
-     * @param integer|null $count
-     * @param integer|null $offset
+     * @param bool|null    $needAll  Return a full list of all countries (TRUE) or list of countries near the current user's country (FALSE)
+     * @param array|null   $code     Country codes in ISO 3166-1 alpha-2 standard.
+     * @param integer|null $count    Number of messages to return.
+     * @param integer|null $offset   Offset needed to return a specific subset of messages.
      *
      * @return CountriesListResponse
      *
      * @throws Exception
      * @throws TooManyRequestsException
      */
-    public function getCountries($needAll = null, $code = null, $count = null, $offset = null)
+    public function getCountries($needAll = false, $code = null, $count = null, $offset = null)
     {
         $parameters = $this->prepareParametersFromArguments(['code']);
 
@@ -46,7 +46,7 @@ class Database extends BasicApi
     /**
      * Returns information about countries by their IDs.
      *
-     * @param integer|array $countryIds
+     * @param integer|array $countryIds Country IDs
      *
      * @return CountriesListResponse
      *
@@ -64,10 +64,10 @@ class Database extends BasicApi
     /**
      * Returns a list of regions.
      *
-     * @param integer $countryId
-     * @param string|null $searchBy
-     * @param integer|null $count
-     * @param integer|null $offset
+     * @param integer       $countryId  Country ID.
+     * @param string|null   $searchBy   Search query.
+     * @param integer|null  $count      Number of messages to return.
+     * @param integer|null  $offset     Offset needed to return a specific subset of messages.
      *
      * @return RegionsListResponse
      *
@@ -85,11 +85,11 @@ class Database extends BasicApi
     /**
      * Returns a list of cities.
      *
-     * @param integer $countryId
-     * @param integer|null $regionId
-     * @param string|null $searchBy
-     * @param integer|null $count
-     * @param integer|null $offset
+     * @param integer       $countryId  Country ID.
+     * @param integer|null  $regionId   Region ID.
+     * @param string|null   $searchBy   Search query.
+     * @param integer|null  $count      Number of messages to return.
+     * @param integer|null  $offset     Offset needed to return a specific subset of messages.
      *
      * @return CitiesListResponse
      *
@@ -107,9 +107,9 @@ class Database extends BasicApi
     /**
      * Returns information about cities by their IDs.
      *
-     * @param array $cityIds
+     * @param integer|array $cityIds City IDs.
      *
-     * @return \VkApi\Response\CitiesListResponse
+     * @return CitiesListResponse
      *
      * @throws Exception
      * @throws TooManyRequestsException
@@ -125,7 +125,7 @@ class Database extends BasicApi
     /**
      * Returns information about streets by their IDs.
      *
-     * @param $streetIds
+     * @param integer|array $streetIds Street IDs.
      *
      * @return StreetsListResponse
      *
@@ -143,11 +143,11 @@ class Database extends BasicApi
     /**
      * Returns a list of higher education institutions.
      *
-     * @param integer $cityId
-     * @param integer|null $countryId
-     * @param string|null $searchBy
-     * @param integer|null $count
-     * @param integer|null $offset
+     * @param integer       $cityId     City ID.
+     * @param integer|null  $countryId  Country ID.
+     * @param string|null   $searchBy   Search query.
+     * @param integer|null  $count      Number of messages to return.
+     * @param integer|null  $offset     Offset needed to return a specific subset of messages.
      *
      * @return \VkApi\Response\UniversitiesListResponse
      *
@@ -167,10 +167,10 @@ class Database extends BasicApi
     /**
      * Returns a list of schools.
      *
-     * @param integer $cityId
-     * @param string|null $searchBy
-     * @param integer|null $count
-     * @param integer|null $offset
+     * @param integer       $cityId    City ID.
+     * @param string|null   $searchBy  Search query.
+     * @param integer|null  $count     Number of messages to return.
+     * @param integer|null  $offset    Offset needed to return a specific subset of messages.
      *
      * @return SchoolsListResponse
      *
@@ -188,7 +188,7 @@ class Database extends BasicApi
     /**
      * Returns a list of school classes.
      *
-     * @param integer $countryId
+     * @param integer $countryId Country ID.
      *
      * @return SchoolClassesListResponse
      *
@@ -206,9 +206,9 @@ class Database extends BasicApi
     /**
      * Returns a list of faculties (i.e., university departments).
      *
-     * @param integer $universityId
-     * @param integer|null $count
-     * @param integer|null $offset
+     * @param integer       $universityId  University ID.
+     * @param integer|null  $count         Number of messages to return.
+     * @param integer|null  $offset        Offset needed to return a specific subset of messages.
      *
      * @return FacultiesListResponse
      *
@@ -226,9 +226,9 @@ class Database extends BasicApi
     /**
      * Returns list of chairs on a specified faculty.
      *
-     * @param integer $facultyId
-     * @param integer|null $count
-     * @param integer|null $offset
+     * @param integer       $facultyId  Faculty ID.
+     * @param integer|null  $count      Number of messages to return.
+     * @param integer|null  $offset     Offset needed to return a specific subset of messages.
      *
      * @return FacultiesListResponse
      *

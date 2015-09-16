@@ -94,8 +94,6 @@ abstract class BasicApi
     /**
      * @param $array
      * @return array
-     *
-     * TODO objects?
      */
     protected function ensureIsArray($array)
     {
