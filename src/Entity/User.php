@@ -5,6 +5,7 @@ namespace VkApi\Entity;
 use Carbon\Carbon;
 use Intervention\Image\ImageManagerStatic;
 use VkApi\Entity\Traits\WithId;
+use VkApi\Enum\UserDeactivationReason;
 use VkApi\Enum\UserPhotoSize;
 use VkApi\Exception\Invalid\InvalidPhotoSizeException;
 
@@ -67,6 +68,35 @@ class User extends BasicEntity
     public function isOnlineFromApp()
     {
         return (bool) $this->getRawValue('online_app');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeactivated()
+    {
+        return (bool) $this->getRawValue('deactivated');
+    }
+
+    /**
+     * @return string|string
+     */
+    public function getDeactivationReason()
+    {
+        $reason = $this->getRawValue('deactivated');
+
+        if (is_null($reason)) {
+            return null;
+        }
+
+        switch ($reason) {
+            case 'deleted':
+                return UserDeactivationReason::DELETED;
+            case 'banned':
+                return UserDeactivationReason::BANNED;
+            default:
+                return UserDeactivationReason::UNKNOWN;
+        }
     }
 
     /**

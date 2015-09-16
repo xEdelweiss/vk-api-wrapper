@@ -2,20 +2,27 @@
 
 namespace VkApi\Api;
 
+use Exception;
 use VkApi\Enum\NameCase;
 use VkApi\Enum\Radius;
+use VkApi\Exception\Api\TooManyRequestsException;
 use VkApi\Query\UserSearchQuery;
 use VkApi\Response\BasicResponse;
 use VkApi\Response\UsersListResponse;
 
+/**
+ * Class Users
+ * @package VkApi\Api
+ */
 class Users extends BasicApi
 {
     /**
-     * Возвращает расширенную информацию о пользователях.
+     * Returns detailed information on users.
      *
-     * @param array|null $userIds
-     * @param array|null $fields
-     * @param string|null $nameCase
+     * @param array|null $userIds User IDs or screen names (screen_name). By default, current user ID.
+     * @param array|null $fields Profile fields to return.
+     * @param string|null $nameCase Case for declension of user name and surname.
+     *
      * @return UsersListResponse
      */
     public function get($userIds = null, $fields = null, $nameCase = NameCase::NOMINATIVE)
@@ -28,7 +35,7 @@ class Users extends BasicApi
     }
 
     /**
-     * Возвращает список пользователей в соответствии с заданным критерием поиска.
+     * Returns a list of users matching the search criteria.
      *
      * @param UserSearchQuery $query
      * @return UsersListResponse
@@ -42,34 +49,38 @@ class Users extends BasicApi
     }
 
     /**
-     * Возвращает информацию о том, установил ли пользователь приложение.
+     * Returns information whether a user installed the application.
      *
      * @param integer|null $userId
+     *
      * @return bool
-     * @throws \Exception
-     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     *
+     * @throws Exception
+     * @throws TooManyRequestsException
      */
     public function isAppUser($userId = null)
     {
         $parameters = $this->prepareParametersFromArguments();
         $request = $this->createRequest($parameters);
 
-        $response = $request->make(BasicResponse::class);
+        $response = $request->make();
 
         return (bool) $response->getParsedResponse()->response;
     }
 
     /**
-     * Возвращает список идентификаторов пользователей и сообществ, которые входят в список подписок пользователя.
+     * Returns a list of IDs of users and communities followed by the user.
      *
      * @param integer|null $userId
      * @param bool|null $extended
      * @param integer|null $count
      * @param integer|null $offset
      * @param array|null $fields
+     *
      * @return BasicResponse
-     * @throws \Exception
-     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     *
+     * @throws Exception
+     * @throws TooManyRequestsException
      */
     public function getSubscriptions($userId = null, $extended = true, $count = null, $offset = null, $fields = null)
     {
@@ -77,21 +88,22 @@ class Users extends BasicApi
         $request = $this->createRequest($parameters);
 
         // TODO implement response for this call
-        return $request->make(BasicResponse::class);
+        return $request->make();
     }
 
     /**
-     * Возвращает список идентификаторов пользователей, которые являются подписчиками пользователя.
-     * Идентификаторы пользователей в списке отсортированы в порядке убывания времени их добавления.
+     * Returns a list of followers of the user in question, sorted by date added, most recent first.
      *
      * @param integer|null $userId
      * @param array|null $fields
      * @param string|null $nameCase
      * @param integer|null $count
      * @param integer|null $offset
+     *
      * @return UsersListResponse
-     * @throws \Exception
-     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     *
+     * @throws Exception
+     * @throws TooManyRequestsException
      */
     public function getFollowers($userId = null, $fields = null, $nameCase = NameCase::NOMINATIVE, $count = null, $offset = null)
     {
@@ -102,7 +114,7 @@ class Users extends BasicApi
     }
 
     /**
-     * Индексирует текущее местоположение пользователя и возвращает список пользователей, которые находятся вблизи.
+     * Indexes user's current location and returns a list of users who are near.
      *
      * @param float $latitude
      * @param float $longitude
@@ -111,9 +123,11 @@ class Users extends BasicApi
      * @param array|null $fields
      * @param string|null $nameCase
      * @param integer|null $timeout
+     *
      * @return UsersListResponse
-     * @throws \Exception
-     * @throws \VkApi\Exception\Api\TooManyRequestsException
+     *
+     * @throws Exception
+     * @throws TooManyRequestsException
      */
     public function getNearby($latitude, $longitude, $accuracy, $radius = Radius::METERS_300, $fields = null, $nameCase = NameCase::NOMINATIVE, $timeout = null)
     {
@@ -122,5 +136,26 @@ class Users extends BasicApi
 
         // TODO implement response for this call
         return $request->make(UsersListResponse::class);
+    }
+
+    /**
+     * Reports (submits a complain about) a user.
+     *
+     * @param integer $userId
+     * @param string $type
+     * @param string|null $comment
+     *
+     * @return BasicResponse
+     *
+     * @throws Exception
+     * @throws TooManyRequestsException
+     */
+    public function report($userId, $type, $comment = null)
+    {
+        $parameters = $this->prepareParametersFromArguments();
+        $request = $this->createRequest($parameters);
+
+        // TODO implement action response for this call
+        return $request->make();
     }
 }

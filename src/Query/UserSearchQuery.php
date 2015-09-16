@@ -205,7 +205,7 @@ class UserSearchQuery extends BasicQuery
     }
 
     /**
-     * @return integr
+     * @return integer
      */
     public function getCity()
     {
@@ -213,7 +213,7 @@ class UserSearchQuery extends BasicQuery
     }
 
     /**
-     * @param integr $city
+     * @param integer $city
      * @return $this
      */
     public function setCity($city)
