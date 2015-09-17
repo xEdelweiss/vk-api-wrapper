@@ -75,4 +75,70 @@ class Friends extends BasicApi
         return $response->getParsedResponse()->response;
     }
 
+    /**
+     * Returns a list of mutual friends of two users.
+     *
+     * @param integer       $targetUserId   ID of the user whose friends will be checked against the friends of the user specified in $sourceUserId.
+     * @param integer|null  $sourceUserId   ID of the user whose friends will be checked against the friends of the user specified in $targetUserId.
+     * @param array|null    $targetUserIds
+     * @param string|null   $order          Sort order. @see \VkApi\Enum\FriendsOrder
+     * @param integer|null  $count          Number of messages to return.
+     * @param integer|null  $offset         Offset needed to return a specific subset of messages.
+     *
+     * @return UsersListResponse|null
+     *
+     * @throws Exception
+     * @throws TooManyRequestsException
+     *
+     * TODO return empty UsersListResponse
+     */
+    public function getMutual($targetUserId, $sourceUserId = null, $targetUserIds = null, $order = FriendsOrder::NAME, $count = null, $offset = null)
+    {
+        if ($targetUserIds != null) {
+            throw new NotImplementedException('Request with target_uids is not implemented');
+        }
+
+        $parameters = $this->prepareParametersFromArguments(['targetUserIds'], [
+            'sourceUserId' => 'source_uid',
+            'targetUserId' => 'target_uid',
+            'targetUserIds' => 'target_uids',
+        ]);
+
+        $userIds = $this->createRequest($parameters)
+            ->make(BasicResponse::class)
+            ->getParsedResponse()
+            ->response;
+
+        if (empty($userIds)) {
+            return null;
+        }
+
+        return $this->getConnection()->users->getUsers($userIds);
+    }
+
+    /**
+     * Returns a list of the current user's recently added friends.
+     *
+     * @param integer|null $count Number of recently added friends to return.
+     *
+     * @return UsersListResponse|null
+     *
+     * @throws Exception
+     * @throws TooManyRequestsException
+     */
+    public function getRecent($count = null)
+    {
+        $parameters = $this->prepareParametersFromArguments();
+
+        $userIds = $this->createRequest($parameters)
+            ->make(BasicResponse::class)
+            ->getParsedResponse()
+            ->response;
+
+        if (empty($userIds)) {
+            return null;
+        }
+
+        return $this->getConnection()->users->getUsers($userIds);
+    }
 }
