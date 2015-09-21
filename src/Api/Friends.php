@@ -113,7 +113,7 @@ class Friends extends BasicApi
             return null;
         }
 
-        return $this->getConnection()->users->getUsers($userIds);
+        return $this->getConnection()->users->getUsers($userIds->toArray());
     }
 
     /**
@@ -139,6 +139,6 @@ class Friends extends BasicApi
             return null;
         }
 
-        return $this->getConnection()->users->getUsers($userIds);
+        return $this->getConnection()->users->getUsers($userIds->toArray());
     }
 }
