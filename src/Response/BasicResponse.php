@@ -5,6 +5,7 @@ namespace VkApi\Response;
 use anlutro\cURL\Response;
 use VkApi\Exception\Api\Exception as ApiException;
 use VkApi\Exception\HttpException;
+use VkApi\JsonWrapper;
 use VkApi\Request\BasicRequest;
 
 class BasicResponse
@@ -25,7 +26,7 @@ class BasicResponse
     public function __construct(Response $response, BasicRequest $request)
     {
         $this->rawResponse = $response;
-        $this->parsedResponse = json_decode($this->rawResponse->body);
+        $this->parsedResponse = new JsonWrapper($this->rawResponse->body);
         $this->request = $request;
 
         $this->exceptionIfError();

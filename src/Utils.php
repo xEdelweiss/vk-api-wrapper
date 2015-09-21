@@ -58,13 +58,17 @@ class Utils
     }
 
     /**
-     * @param $array
+     * @param array|JsonWrapper $array
      * @param $class
      * @param ...$additionalArguments
      * @return array
      */
     public static function convertArrayToArrayOfObjects($array, $class, ...$additionalArguments)
     {
+        if ($array instanceof JsonWrapper) {
+            $array = $array->toArray();
+        }
+
         $reflection = new \ReflectionClass($class);
         return array_map(function($item) use ($class, $reflection, $additionalArguments){
             $arguments = $additionalArguments;
